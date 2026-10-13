@@ -9,6 +9,7 @@ import com.edgemart.commerce.*;
 import com.edgemart.config.*;
 import jakarta.servlet.http.*;
 import java.util.Map;
+import java.nio.file.Path;
 import org.junit.jupiter.api.*;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.*;
@@ -24,6 +25,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 class SecurityConfigTest {
   AnnotationConfigWebApplicationContext context;
@@ -47,6 +50,16 @@ class SecurityConfigTest {
   void teardown() {
     SecurityContextHolder.clearContext();
     context.close();
+  }
+
+  @Test
+  void consentPolicyPagesAndTheirStylesAreReadableWithoutSigningIn() throws Exception {
+    mvc.perform(get("/privacy.html")).andExpect(status().isOk())
+        .andExpect(content().string(org.hamcrest.Matchers.containsString("Google &amp; GitHub sign-in")));
+    mvc.perform(get("/terms.html")).andExpect(status().isOk())
+        .andExpect(content().string(org.hamcrest.Matchers.containsString("Terms of service")));
+    mvc.perform(get("/assets/policy.css")).andExpect(status().isOk());
+    mvc.perform(get("/private-policy.html")).andExpect(status().isUnauthorized());
   }
 
   @Test
@@ -128,7 +141,11 @@ class SecurityConfigTest {
   @TestConfiguration
   @EnableWebMvc
   @Import({SecurityConfig.class, CorsConfig.class})
-  static class TestConfig {
+  static class TestConfig implements WebMvcConfigurer {
+    @Override public void addResourceHandlers(ResourceHandlerRegistry registry) {
+      registry.addResourceHandler("/privacy.html", "/terms.html", "/assets/policy.css")
+          .addResourceLocations(Path.of("../frontend/public").toAbsolutePath().toUri().toString());
+    }
     @Bean OAuthRegistrations providers(Environment env) { return new OAuthRegistrations(env); }
     @Bean OAuthSuccess oauth(AccountService accounts, HttpSessionSecurityContextRepository repository) {
       return new OAuthSuccess(accounts, "http://localhost:5173", repository, null);

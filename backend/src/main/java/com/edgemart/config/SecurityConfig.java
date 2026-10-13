@@ -69,7 +69,7 @@ public class SecurityConfig {
             .logout(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/", "/index.html", "/landing.html", "/delivery", "/delivery/login", "/delivery/signup", "/assets/**", "/images/**", "/logo.svg", "/landing.js", "/favicon.ico").permitAll()
+                .requestMatchers(HttpMethod.GET, "/", "/index.html", "/landing.html", "/privacy.html", "/terms.html", "/delivery", "/delivery/login", "/delivery/signup", "/assets/**", "/images/**", "/logo.svg", "/landing.js", "/favicon.ico").permitAll()
                 .requestMatchers("/auth/**", "/api/**", "/oauth2/**", "/login/oauth2/**", "/error").permitAll()
                 .anyRequest().authenticated()
             )
