@@ -1,0 +1,15 @@
+export const SELLER_DEPARTMENTS = [
+  { id: 'electronics', name: 'Electronics', icon: '⌘', accent: '#3b60d4', soft: '#eef2ff', dark: '#131c3e', headline: 'Power your next best seller.', detail: 'Devices, accessories and everyday innovation.', attribute: 'Model / specifications', unit: '1 device' },
+  { id: 'fruits', name: 'Fruits', icon: '◕', accent: '#b84921', soft: '#fff0e2', dark: '#432616', headline: 'Fresh picks. A growing business.', detail: 'Seasonal harvests, thoughtful packs and fresh favourites.', attribute: 'Origin / variety', unit: '1 kg pack' },
+  { id: 'vegetables', name: 'Vegetables', icon: 'VG', accent: '#267149', soft: '#eaf5e8', dark: '#173e29', headline: 'From your harvest to their home.', detail: 'Build a colourful market for everyday cooking.', attribute: 'Origin / harvest details', unit: '500 g pack' },
+  { id: 'jewellery', name: 'Jewellery', icon: '◇', accent: '#90661c', soft: '#fbf1d9', dark: '#32291c', headline: 'Make every piece a signature.', detail: 'Considered collections, precious details and timeless craft.', attribute: 'Material / purity / size', unit: '1 piece' },
+  { id: 'meat', name: 'Meat', icon: 'MT', accent: '#a23240', soft: '#fbecee', dark: '#401f29', headline: 'A better cut of commerce.', detail: 'Describe your cuts, pack sizes and handling requirements.', attribute: 'Cut / storage information', unit: '500 g pack' },
+  { id: 'pharmacy', name: 'Pharmacy', icon: '+', accent: '#087981', soft: '#e6f6f4', dark: '#123b40', headline: 'Care begins with clear details.', detail: 'Manage healthcare essentials with useful product information.', attribute: 'Manufacturer / expiry / storage', unit: '1 pack' },
+  { id: 'groceries', name: 'Groceries', icon: '▦', accent: '#776326', soft: '#f6f2df', dark: '#393421', headline: 'The essentials. Exceptionally done.', detail: 'Stock the staples that keep everyday life moving.', attribute: 'Brand / ingredients / expiry', unit: '1 pack' },
+  { id: 'books', name: 'Books', icon: '▤', accent: '#7550a2', soft: '#f2ebfa', dark: '#33253f', headline: 'Give your stories a storefront.', detail: 'Curate a shelf readers will return to.', attribute: 'Author / ISBN / edition', unit: '1 book' },
+  { id: 'food', name: 'Food', icon: '◉', accent: '#bd5123', soft: '#fff0e7', dark: '#482b20', headline: 'Turn your menu into a destination.', detail: 'Showcase portions, ingredients and kitchen favourites.', attribute: 'Ingredients / allergens / portion', unit: '1 portion' },
+  { id: 'plants', name: 'Plants', icon: '❧', accent: '#497243', soft: '#edf4e7', dark: '#283b25', headline: 'A little growth goes a long way.', detail: 'Bring your nursery, pots and plant care into one place.', attribute: 'Plant size / pot / care', unit: '1 plant' }
+];
+export const sellerDepartment = id => SELLER_DEPARTMENTS.find(d => d.id === id) || SELLER_DEPARTMENTS[0];
+export const sellerUrl = (department, mode = 'dashboard') => `/?seller=${mode}&department=${sellerDepartment(department).id}`;
+export const sellerMoney = paise => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 }).format(paise / 100);

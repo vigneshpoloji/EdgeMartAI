@@ -1,0 +1,18 @@
+# Only build sources may leave this machine in a Docker build context.
+**
+!Dockerfile
+!.dockerignore
+!frontend/
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/index.html
+!frontend/landing.html
+!frontend/vite.config.js
+!frontend/src/
+!frontend/src/**
+!frontend/public/
+!frontend/public/**
+!backend/
+!backend/pom.xml
+!backend/src/
+!backend/src/**

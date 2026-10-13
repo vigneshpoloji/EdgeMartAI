@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+ <title id="title">EdgeMart</title><desc id="desc">A sharp E monogram inside a shopping bag, with an orange forward edge</desc>
+ <defs><linearGradient id="purple" x2="1" y2="1"><stop stop-color="#6D3FD2"/><stop offset="1" stop-color="#332057"/></linearGradient></defs>
+ <rect width="64" height="64" rx="14" fill="url(#purple)"/>
+ <path d="M23 21v-3a9 9 0 0 1 18 0v3" fill="none" stroke="#FF9E55" stroke-width="3" stroke-linecap="round"/>
+ <path d="M16 23h32l-3 30H19z" fill="#FAF5FF"/>
+ <path d="M25 30h16v5H30v4h9v5h-9v4h11v5H25z" fill="#52318B"/>
+ <path d="M48 23 58 13v13L46 38z" fill="#FF8A3D"/>
+</svg>

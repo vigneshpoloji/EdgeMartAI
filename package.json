@@ -1,0 +1,16 @@
+{
+  "name": "edgemart",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "install:all": "npm --prefix frontend install",
+    "dev": "npm --prefix frontend run dev",
+    "start": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "test": "npm --prefix frontend test",
+    "preview": "npm --prefix frontend run preview"
+  }
+}

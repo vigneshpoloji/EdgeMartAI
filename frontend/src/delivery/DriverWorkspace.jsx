@@ -1,0 +1,64 @@
+import React,{useState,useEffect} from 'react';
+import {ArrowUpRight,Check,CheckCircle2,Clock,MapPin,Navigation,Package,Phone,RefreshCw,Route,ShieldCheck,Truck,UserRound,Wallet,LogOut,CalendarDays,Radio,Mail,Search,Store} from 'lucide-react';
+import {DRIVER_VIEWS,driverStatus,driverMoney,indianDate,mapUrls,driverStats,completedAt} from './driver.model.js';
+import './driver.css';
+import ProfileMenu from '../authentication/ProfileMenu';
+
+function DeliveryMap({order,point,sharing,mapView,setMapView}) {
+  const coordinates=mapView==='live'?point:mapView==='pickup'?order?.store?.location:order?.location;
+  const urls=mapUrls(coordinates);
+  const label=mapView==='live'?'Driver location':mapView==='pickup'?'Store pickup':'Delivery address';
+  const isStale=point?.recordedAt&&Date.now()-Date.parse(point.recordedAt)>30000;
+  return <section className="driver-map-card" aria-label="Delivery map">
+    <header><div><span className="driver-eyebrow">YOUR NEXT STOP</span><h2>{label}</h2></div><span className={`driver-map-status ${sharing?'is-live':''}`}><span/>{mapView==='live'?(sharing?'Sharing GPS':'Last GPS update'):'Map view'}</span></header>
+    <div className="driver-map-tabs" role="group" aria-label="Map location">
+      {[['pickup','Pickup',Store],['delivery','Destination',MapPin],['live','Driver GPS',Navigation]].map(([id,title,Icon])=><button key={id} aria-pressed={mapView===id} disabled={id==='delivery'&&!order?.location||id==='live'&&order?.status!=='out_for_delivery'} onClick={()=>setMapView(id)}><Icon size={15}/>{title}</button>)}
+    </div>
+    <div className="driver-map-stage">
+      {urls?<iframe title={`${label} map`} src={urls.embed} loading="lazy" referrerPolicy="no-referrer"/>:<div className="driver-map-placeholder"><div><Navigation size={32}/></div><h3>{!order?'Your next stop belongs here.':mapView==='live'?'Your location belongs here.':'A location is needed.'}</h3><p>{!order?'Select a delivery from the board to view its map.':mapView==='live'?'Share live location from an active delivery to display your device on the map.':mapView==='pickup'?'The seller needs to set the store pickup location.':'The buyer needs to save their delivery location before pickup.'}</p></div>}
+      {urls&&<a className="driver-map-open" href={urls.open} target="_blank" rel="noreferrer">Open map<ArrowUpRight size={14}/></a>}
+    </div>
+    <footer><MapPin size={14}/><span>{mapView==='live'&&point?`${isStale?'Update delayed · ':''}Last sent ${indianDate(point.recordedAt,true)} · Accuracy ±${Math.round(point.accuracy||0)} m`:urls?'Map data © OpenStreetMap contributors.':'Select an order and a saved location to view its map.'}</span></footer>
+  </section>;
+}
+
+export default function DriverWorkspace({user,available=true,availabilityPending=false,onAvailability,onProfile,orders,loading,refreshing,lastSync,error,notice,selectedId,onSelect,filter,onFilter,onRefresh,onSignout,pendingId,onClaim,onComplete,sharingId,onShare,onStop,points}) {
+  const [query,setQuery]=useState(''),[mapView,setMapView]=useState('pickup'),[cash,setCash]=useState({});
+  const stats=driverStats(orders);
+  const visible=orders.filter(o=>(filter==='all'||o.status===filter)&&`${o.id} ${o.store?.name||''} ${o.address?.name||''} ${o.items.map(item=>item.name).join(' ')}`.toLowerCase().includes(query.toLowerCase()));
+  const selected=visible.find(o=>o.id===selectedId)||visible[0];
+  useEffect(()=>{setMapView(selected?.status==='ready'?'pickup':'delivery');},[selected?.id,selected?.status]);
+  const point=selected&&(points[selected.id]||selected.driverLocation);
+  const active=selected?.status==='out_for_delivery',done=selected?.status==='delivered',assigned=active||done;
+  const choose=id=>{const order=orders.find(o=>o.id===id);onSelect(id);setMapView(order?.status==='ready'?'pickup':'delivery');};
+  const plan=selected?.preferences||{};
+  return <div className="driver-shell">
+    <header className="driver-topbar"><a className="driver-brand" href="/delivery"><img src="/logo.svg" alt=""/><span>EdgeMart<small>DELIVERY PARTNER</small></span></a><div className="driver-top-actions"><button className={`driver-availability ${available?"":"is-offline"}`} disabled={availabilityPending} onClick={onAvailability}>{availabilityPending?"Updating…":available?"Online · go offline":"Offline · go online"}</button><span className="driver-connection"><span/>{lastSync?'Connected':'Connecting'}</span><ProfileMenu user={user} onProfile={onProfile} onLogout={onSignout} loginUrl="/delivery/login" signupUrl="/delivery/signup"/></div></header>
+    <main className="driver-main">
+      <section className="driver-hero"><div><span className="driver-eyebrow">GOOD ROUTES. GREAT DELIVERIES.</span><h1>Every doorstep,<br/><em>a little closer.</em></h1><p>Welcome, {user.name}. Your pickups, customers and next stops in one place.</p></div><div className="driver-hero-note"><div className="driver-hero-icon"><Truck size={31}/></div><strong>Your delivery workspace</strong><span>{indianDate(new Date().toISOString())}</span><small><ShieldCheck size={13}/> Orders assigned securely to your account</small></div></section>
+      <section className="driver-stats" aria-label="Delivery overview">{[[Package,'Ready for pickup',stats.ready,'Available orders'],[Route,'On the road',stats.active,'Your active deliveries'],[CheckCircle2,'Completed',stats.completed,'Your recent deliveries'],[Wallet,'Cash to collect',driverMoney(stats.cashDue),'Active cash-on-delivery orders']].map(([Icon,label,value,note])=><article key={label}><div><Icon size={19}/><span>{label}</span></div><strong>{value}</strong><small>{note}</small></article>)}</section>
+      {error&&<div className="driver-alert is-error" role="alert">{error}</div>}{notice&&<div className="driver-alert" role="status"><CheckCircle2 size={17}/>{notice}</div>}
+      <div className="driver-board">
+        <section className="driver-queue"><header><div><span className="driver-eyebrow">THE DELIVERY BOARD</span><h2>Your next moves.</h2></div><button className="driver-icon-button" aria-label="Refresh deliveries" disabled={refreshing} onClick={onRefresh}><RefreshCw size={18} className={refreshing?'is-spinning':''}/></button></header>
+          <div className="driver-view-tabs" role="group" aria-label="Delivery status">{DRIVER_VIEWS.map(([value,label])=><button key={value} aria-pressed={filter===value} onClick={()=>onFilter(value)}>{label}<span>{orders.filter(o=>value==='all'||o.status===value).length}</span></button>)}</div>
+          <label className="driver-search"><Search size={16}/><input aria-label="Search deliveries" placeholder="Search order, store or customer" value={query} onChange={e=>setQuery(e.target.value)}/></label>
+          <div className="driver-order-list">{loading?<p className="driver-empty">Loading your deliveries…</p>:visible.length?visible.map(order=><button key={order.id} className={`driver-order-card ${selected?.id===order.id?'is-selected':''}`} onClick={()=>choose(order.id)}><div><span className={`driver-status-pill ${order.status}`}>{driverStatus(order.status)}</span><span className="driver-order-code">#{order.id.slice(-8)}</span></div><h3>{order.store?.name||'Store pickup'}</h3><p>{order.items.map(item=>`${item.quantity} × ${item.name}`).join(', ')}</p><footer><span><Clock size={12}/>{order.status==='delivered'?indianDate(completedAt(order)||order.date):planText(order.preferences)}</span><ArrowUpRight size={16}/></footer>{order.deliveryLocationRequired&&<small className="driver-missing-location">Buyer location needed before pickup</small>}</button>):<div className="driver-empty"><Package size={30}/><h3>{!available&&(filter==="all"||filter==="ready")?"Offline for new pickups.":"No deliveries in this view."}</h3><p>{!available&&(filter==="all"||filter==="ready")?"Go online using the switch above when ready to accept pickups.":"Orders arrive here when sellers mark them ready for pickup."}</p></div>}</div>
+          <footer className="driver-sync">{lastSync?`Updated ${new Intl.DateTimeFormat('en-IN',{timeZone:'Asia/Kolkata',hour:'numeric',minute:'2-digit',second:'2-digit'}).format(new Date(lastSync))} · refreshes every 5 seconds`:'Waiting for a connection'}</footer>
+        </section>
+        <div className="driver-detail-column"><DeliveryMap key={selected?.id||'empty'} order={selected} point={point} sharing={sharingId===selected?.id} mapView={mapView} setMapView={setMapView}/>
+          {selected?<section className="driver-detail-card"><header><div><span className="driver-eyebrow">DELIVERY DETAILS</span><h2>{assigned?selected.address?.name||'Customer':'Collect from the store'}</h2></div><span className={`driver-status-pill ${selected.status}`}>{driverStatus(selected.status)}</span></header><p className="driver-full-order">{selected.id}</p>
+            <div className="driver-plan-grid"><div><CalendarDays size={17}/><span>{done?'Delivered on':'Preferred delivery date'}<strong>{indianDate(done?completedAt(selected):plan.date,done)}</strong></span></div><div><Clock size={17}/><span>Delivery preference<strong>{plan.delivery==='express'?'Express':'Standard'} · {plan.slot||'Any time'}</strong></span></div></div>
+            {assigned?<div className="driver-buyer"><div className="driver-detail-label"><UserRound size={16}/>Customer & delivery address</div><p>{selected.address?.street}{selected.address?.area&&`, ${selected.address.area}`}<br/>{selected.address?.city}, {selected.address?.state} {selected.address?.pin}</p><div className="driver-contact-links">{selected.address?.phone&&<a href={`tel:${selected.address.phone}`}><Phone size={15}/>{selected.address.phone}</a>}{selected.address?.email&&<a href={`mailto:${selected.address.email}`}><Mail size={15}/>{selected.address.email}</a>}</div>{selected.address?.instructions&&<p className="driver-instructions"><strong>Delivery instructions</strong>{selected.address.instructions}</p>}</div>:<div className="driver-buyer"><div className="driver-detail-label"><Store size={16}/>Pickup store</div><p>{selected.store?.name}</p><small>Customer contact details appear after you accept this pickup.</small></div>}
+            <div className="driver-item-list">{selected.items.map((item,index)=><div key={`${item.id}-${index}`}><span className="driver-item-quantity">{item.quantity}×</span><div><strong>{item.name}</strong><small>{item.variant||'Standard unit'}</small></div><span>{driverMoney(item.unitPaise*item.quantity)}</span></div>)}</div>
+            {assigned&&<div className={`driver-cash ${done?'is-paid':''}`}><Wallet size={22}/><div><span>{done?'Cash payment recorded':'Collect cash on delivery'}</span><strong>{driverMoney(selected.amount?.total)}</strong></div>{done&&<CheckCircle2 size={21}/>}</div>}
+            {selected.status==='ready'&&<div className="driver-action-panel">{selected.deliveryLocationRequired&&<p>The buyer needs to save their delivery location in My orders before you can accept pickup.</p>}<button className="driver-primary" disabled={selected.deliveryLocationRequired||Boolean(pendingId)} onClick={()=>onClaim(selected)}><Package size={17}/>{pendingId===selected.id?'Accepting pickup…':selected.deliveryLocationRequired?'Waiting for buyer location':'Accept pickup'}<ArrowUpRight size={17}/></button></div>}
+            {active&&<div className="driver-action-panel"><button className="driver-secondary" onClick={()=>{if(sharingId===selected.id)onStop();else{setMapView('live');onShare(selected.id);}}}><Radio size={17}/>{sharingId===selected.id?'Stop location sharing':'Share live location'}</button><p className="driver-gps-help">Keep this page open while sharing GPS. The buyer sees your latest device location.</p><form onSubmit={e=>{e.preventDefault();onComplete(selected,Boolean(cash[selected.id]));}}><label className="driver-cash-check"><input type="checkbox" checked={Boolean(cash[selected.id])} onChange={e=>setCash({...cash,[selected.id]:e.target.checked})}/><span>I delivered the order and collected {driverMoney(selected.amount?.total)} in cash.</span></label><button className="driver-primary" disabled={!cash[selected.id]||Boolean(pendingId)}><Check size={17}/>{pendingId===selected.id?'Completing delivery…':'Confirm delivery'}</button></form></div>}
+            {done&&<div className="driver-completed"><CheckCircle2 size={20}/><span>Delivery completed. Live location sharing has stopped.</span></div>}
+          </section>:<section className="driver-detail-card driver-empty"><Route size={32}/><h3>A clear route starts here.</h3><p>Select a pickup or active delivery to see its details.</p></section>}
+        </div>
+      </div>
+      <footer className="driver-page-footer"><span>EdgeMart delivery partner</span><span>Device GPS · Cash on delivery · Secure account access</span></footer>
+    </main>
+  </div>;
+}
+function planText(preferences) {return preferences?.date?indianDate(preferences.date):'Date not specified';}

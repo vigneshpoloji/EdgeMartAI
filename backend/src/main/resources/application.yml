@@ -1,0 +1,37 @@
+server:
+  port: ${PORT:8081}
+  forward-headers-strategy: framework
+  servlet:
+    session:
+      timeout: 8h
+      cookie:
+        http-only: true
+        secure: ${SESSION_COOKIE_SECURE:false}
+        same-site: ${SESSION_COOKIE_SAME_SITE:lax}
+spring:
+  config:
+    import:
+      - optional:file:./application-local.yml
+      - optional:file:./oauth-local.properties
+      - optional:file:./gemini-local.properties
+      - optional:file:./contact-local.properties
+  data:
+    mongodb:
+      uri: ${MONGODB_URI:mongodb://localhost:27017/edgemart}
+      auto-index-creation: true
+edgemart:
+  frontend-url: ${FRONTEND_URL:${RENDER_EXTERNAL_URL:http://localhost:5173}}
+  backend-url: ${BACKEND_URL:${RENDER_EXTERNAL_URL:http://localhost:8081}}
+  allowed-origins: ${ALLOWED_ORIGINS:${RENDER_EXTERNAL_URL:http://localhost:5173,http://127.0.0.1:5173,http://localhost:5193,http://127.0.0.1:5193}}
+  delivery-radius-km: ${DELIVERY_RADIUS_KM:5}
+  gemini:
+    key: ${GEMINI_API_KEY:}
+    model: ${GEMINI_MODEL:gemini-3.1-flash-lite}
+  contact:
+    key: ${BREVO_API_KEY:}
+    sender: ${CONTACT_SENDER_EMAIL:vigneshpoloji@gmail.com}
+  oauth:
+    google-id: ${GOOGLE_CLIENT_ID:}
+    google-secret: ${GOOGLE_CLIENT_SECRET:}
+    github-id: ${GITHUB_CLIENT_ID:}
+    github-secret: ${GITHUB_CLIENT_SECRET:}

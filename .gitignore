@@ -1,0 +1,22 @@
+**/node_modules/
+**/dist/
+**/.data/
+**/.env
+**/.env.*
+!**/.env.example
+
+backend/application-local.yml
+backend/oauth-local.properties
+backend/gemini-local.properties
+backend/contact-local.properties
+backend/application-mail-local.yml
+backend/target/
+backend/.logs/
+frontend/.dashboard-render-cache/
+frontend/.seller-access-render-cache/
+
+# Local terminal output and personal Postman workspaces are not deployment source.
+**/*.log
+/.postman/
+/postman/
+/backend/postman/

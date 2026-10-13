@@ -1,0 +1,2260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4f2e9">
+  <meta name="description" content="Discover ten shopping worlds at EdgeMart AI.">
+  <title>Your world, with an edge — EdgeMart AI</title>
+  <link rel="icon" href="/logo.svg" type="image/svg+xml">
+
+  <style>
+/* =========================
+   Colours and base styles
+   ========================= */
+
+:root {
+  --paper: #f4f2e9;
+  --ink: #20221e;
+  --muted: #62645b;
+  --lime: #e1f184;
+  --orange: #ec623c;
+  --line: #25281f26;
+
+  /* Sky Blue Palette (Steps Boxes Only) */
+  --sky-bg: #f0f9ff;
+  --sky-border: #bae6fd;
+  --sky-primary: #0284c7;
+  --sky-dark: #0369a1;
+
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 108px;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+a {
+  touch-action: manipulation;
+}
+
+:focus-visible {
+  outline: 3px solid #536a1e;
+  outline-offset: 6px;
+}
+
+::selection {
+  background: var(--lime);
+  color: var(--ink);
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  padding: 15px;
+  background: var(--ink);
+  color: white;
+  z-index: 100;
+  transform: translateY(-180%);
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   Micro-Interactions (Hover States & Icon Slides)
+   ========================================================= */
+
+.pill-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+  padding: 8px 8px 8px 23px;
+  min-height: 54px;
+  border: 0;
+  border-radius: 40px;
+  color: white;
+  background: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  transition: background 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.3s ease;
+}
+
+.pill-button > span {
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--lime);
+  color: var(--ink);
+  font-size: 20px;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.25s;
+}
+
+.pill-button:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(32, 34, 30, 0.22);
+  background: #363b2f;
+}
+
+.pill-button:hover > span {
+  transform: translateX(4px) rotate(45deg);
+  background: #e9f89a;
+}
+
+.quiet-link {
+  font-size: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.25s, border-color 0.25s;
+}
+
+.quiet-link span {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.quiet-link:hover {
+  color: var(--orange);
+  border-color: var(--orange);
+}
+
+.quiet-link:hover span {
+  transform: translateX(6px);
+}
+
+/* =========================================================
+   Header (Clean AI Search, Contact & Login/Signup)
+   ========================================================= */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  min-height: 86px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 4.5%;
+  border-bottom: 1px solid var(--line);
+  background: #f4f2e9ed;
+  backdrop-filter: blur(18px);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  font-size: 27px;
+  font-weight: 800;
+  letter-spacing: -1.6px;
+}
+
+.brand img {
+  transition: transform 0.35s;
+}
+
+.brand:hover img {
+  transform: rotate(-9deg) scale(1.08);
+}
+
+.brand small {
+  font-size: 11px;
+  letter-spacing: -0.3px;
+  vertical-align: top;
+  margin-left: 4px;
+  line-height: 2;
+}
+
+/* AI Search Bar */
+.ai-search-wrapper {
+  flex: 1;
+  max-width: 480px;
+  position: relative;
+  border-radius: 9999px;
+  padding: 2px;
+  background: linear-gradient(90deg, #4285f4, #9b72cb, #d96570, #fbbc05, #34a853, #4285f4);
+  background-size: 300% 300%;
+  animation: aiStrokeGlow 5s ease infinite;
+  box-shadow: 0 4px 18px rgba(66, 133, 244, 0.15);
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+
+.ai-search-wrapper:focus-within {
+  transform: scale(1.02);
+  box-shadow: 0 6px 24px rgba(155, 114, 203, 0.3);
+}
+
+@keyframes aiStrokeGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.search-form {
+  display: flex;
+  align-items: center;
+  background: var(--paper);
+  border-radius: 9999px;
+  padding: 0 16px;
+  height: 44px;
+}
+
+.search-form input {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font-size: 13px;
+  color: var(--ink);
+  outline: none;
+}
+
+.search-form button {
+  background: transparent;
+  border: 0;
+  font-size: 16px;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0 4px;
+  transition: transform 0.2s;
+}
+
+.search-form button:hover {
+  transform: scale(1.2);
+  color: var(--ink);
+}
+
+.header-actions-group {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 100%;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.header-contact-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 18px;
+  border-radius: 9999px;
+  background: transparent;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.header-contact-btn:hover {
+  background: var(--ink);
+  color: white;
+  transform: translateY(-2px);
+}
+
+.header-auth-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: 9999px;
+  background: var(--ink);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(32, 34, 30, 0.15);
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.header-auth-btn:hover {
+  transform: translateY(-2px);
+  background: #3d4334;
+  box-shadow: 0 6px 18px rgba(32, 34, 30, 0.25);
+}
+
+/* =========================
+   Hero Section
+   ========================= */
+
+.hero {
+  max-width: 1680px;
+  padding: 0 4.5%;
+  margin: auto;
+  position: relative;
+  overflow: visible;
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 26px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+}
+
+.hero-meta > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.status-dot {
+  display: inline-block;
+  height: 6px;
+  width: 6px;
+  border-radius: 100%;
+  background: #637747;
+  box-shadow: 0 0 0 4px #63774713;
+}
+
+.motion-toggle {
+  border: 0;
+  padding: 6px 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.06fr 1fr;
+  min-height: 580px;
+  align-items: center;
+  gap: 2%;
+  position: relative;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  padding: 36px 0 42px;
+  will-change: transform;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  margin: 0 0 25px;
+}
+
+h1 {
+  font-size: clamp(72px, 8.25vw, 140px);
+  line-height: 0.91;
+  font-weight: 750;
+  letter-spacing: -0.08em;
+  margin: 0 0 28px -6px;
+}
+
+h1 > span {
+  display: block;
+  white-space: nowrap;
+}
+
+h1 > span:nth-child(2) {
+  margin-top: 8px;
+}
+
+em {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: 400;
+  letter-spacing: -0.08em;
+}
+
+h1 em {
+  color: var(--orange);
+  position: relative;
+}
+
+.title-arrow {
+  width: 0.62em;
+  height: 0.62em;
+  margin-left: 0.12em;
+  vertical-align: 2px;
+  transition: transform 0.5s;
+}
+
+.hero-copy:hover .title-arrow {
+  transform: translate(7px, 7px);
+}
+
+.hero-description {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 28px;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 23px;
+  flex-wrap: wrap;
+}
+
+.hero-footnote {
+  margin-top: 35px;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.mini-stack {
+  display: flex;
+}
+
+.mini-stack img {
+  width: 33px;
+  height: 33px;
+  border-radius: 100%;
+  border: 2px solid var(--paper);
+  object-fit: cover;
+}
+
+.mini-stack img + img {
+  margin-left: -9px;
+}
+
+.hero-footnote p {
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 0;
+  color: var(--muted);
+}
+
+.hero-footnote strong {
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.hero-art {
+  height: 520px;
+  position: relative;
+  isolation: isolate;
+  will-change: transform;
+}
+
+/* Remove Hero background orbit circles */
+.orbit,
+.orbit-one,
+.orbit-two {
+  display: none !important;
+}
+
+.hero-deal-badge {
+  position: absolute;
+  top: 15px;
+  left: -20px;
+  background: var(--orange);
+  color: white;
+  padding: 10px 16px;
+  border-radius: 50px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 10px 24px rgba(236, 98, 60, 0.35);
+  z-index: 5;
+  will-change: transform;
+}
+
+.hero-deal-badge span {
+  background: white;
+  color: var(--orange);
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  font-size: 10px;
+}
+
+.photo-card {
+  position: absolute;
+  padding: 8px 8px 0;
+  background: #fff;
+  box-shadow: 0 12px 30px #33342218;
+  border: 1px solid #20221e10;
+  border-radius: 3px;
+  transition: box-shadow 0.4s, filter 0.4s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+
+.photo-card img {
+  width: 100%;
+  height: calc(100% - 35px);
+  object-fit: cover;
+}
+
+.photo-card > span {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 8px;
+  letter-spacing: 1px;
+  font-weight: 700;
+  padding: 0 5px;
+}
+
+.photo-card b {
+  font-size: 20px;
+}
+
+.photo-card:hover,
+.photo-card:focus-visible {
+  z-index: 6;
+  box-shadow: 0 25px 45px #33342235;
+  filter: saturate(1.18);
+}
+
+.photo-tech {
+  --rotation: -12deg;
+  width: 54%;
+  height: 290px;
+  left: 5%;
+  top: 26px;
+  transform: rotate(var(--rotation));
+  background: #e1e4fb;
+}
+
+.photo-fruit {
+  --rotation: 12deg;
+  width: 46%;
+  height: 262px;
+  right: 0;
+  top: 112px;
+  transform: rotate(var(--rotation));
+  background: #ffe0a7;
+  z-index: 2;
+}
+
+.photo-plant {
+  --rotation: -4deg;
+  width: 44%;
+  height: 235px;
+  left: 24%;
+  bottom: 0;
+  transform: rotate(var(--rotation));
+  background: #dae4cb;
+  z-index: 3;
+}
+
+.round-stamp {
+  position: absolute;
+  right: 1%;
+  top: 1%;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--lime);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(12deg);
+  z-index: 4;
+  border: 1px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  will-change: transform;
+}
+
+.round-stamp span {
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.round-stamp b {
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 30px;
+  line-height: 1;
+}
+
+.art-note {
+  position: absolute;
+  left: 0;
+  bottom: 17px;
+  font-family: Georgia, serif;
+  font-style: italic;
+  font-size: 17px;
+  transform: rotate(-8deg);
+}
+
+.hero-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0;
+  border-top: 1px solid var(--line);
+  font-size: 9px;
+  letter-spacing: 1.2px;
+}
+
+.hero-bottom a span {
+  margin-left: 12px;
+  font-size: 17px;
+  display: inline-block;
+}
+
+/* =========================================================
+   Odometer Metrics Section
+   ========================================================= */
+
+.odometer-metrics-section {
+  background: #ffffff;
+  border-block: 1px solid var(--line);
+  padding: 50px 4.5%;
+}
+
+.odometer-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+.odometer-card {
+  text-align: left;
+  border-left: 2px solid var(--lime);
+  padding-left: 22px;
+}
+
+.odometer-number-wrap {
+  display: flex;
+  align-items: baseline;
+  font-size: clamp(38px, 4.2vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.odometer-number {
+  font-variant-numeric: tabular-nums;
+  display: inline-block;
+}
+
+.odometer-suffix {
+  color: var(--orange);
+  font-family: Georgia, serif;
+  font-style: italic;
+  margin-left: 2px;
+}
+
+.odometer-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* Ticker */
+.ticker {
+  overflow: hidden;
+  background: var(--lime);
+  border-block: 1px solid var(--ink);
+  padding: 21px 0;
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+.ticker-track > span {
+  flex: none;
+  font-size: clamp(24px, 3vw, 46px);
+  letter-spacing: -1px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.ticker i {
+  font-style: normal;
+  margin: 0 30px;
+}
+
+.ticker:hover .ticker-track {
+  animation-play-state: paused;
+}
+
+/* =========================================================
+   1. PRODUCTS SECTION: WITH THIN GOOGLE GLOWING ARROW CIRCLE
+   ========================================================= */
+
+.departments {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 96px 4.5% 100px;
+  max-width: 1680px;
+  margin: auto;
+  position: relative;
+}
+
+.departments .eyebrow {
+  color: var(--ink);
+}
+
+.departments h2 {
+  color: var(--ink);
+}
+
+.departments .section-intro p {
+  color: var(--muted);
+}
+
+.departments .section-intro > span {
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 30px;
+  margin-bottom: 48px;
+}
+
+h2 {
+  font-size: clamp(52px, 6vw, 91px);
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+  margin: 0;
+  font-weight: 700;
+}
+
+.section-intro {
+  padding-bottom: 7px;
+}
+
+.section-intro p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 25px;
+}
+
+.section-intro > span {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 8px;
+}
+
+.department-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 36px 24px;
+}
+
+.department-card {
+  grid-column: span 2;
+  display: block;
+  min-width: 0;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.department-card.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.department-card.wide {
+  grid-column: span 4;
+}
+
+.card-image {
+  height: 330px;
+  background: var(--card-color);
+  border-radius: 5px;
+  overflow: hidden;
+  position: relative;
+  isolation: isolate;
+}
+
+.card-image::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0002, transparent 30%, #0002);
+  pointer-events: none;
+}
+
+.card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.65s cubic-bezier(0.2, 0.65, 0.3, 1), filter 0.5s ease;
+}
+
+.department-card:hover .card-image img {
+  transform: scale(1.085);
+  filter: saturate(1.15);
+}
+
+.card-tag {
+  position: absolute;
+  z-index: 2;
+  top: 18px;
+  left: 18px;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  background: var(--card-color);
+  color: var(--ink);
+  padding: 10px 12px;
+  border-radius: 2px;
+}
+
+.card-cta {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 30px;
+  padding: 12px 19px;
+  font-size: 12px;
+  transform: translateY(70px);
+  opacity: 0;
+  transition: opacity 0.35s, transform 0.35s;
+}
+
+.card-cta b {
+  font-size: 21px;
+  transition: transform 0.25s;
+}
+
+.department-card:hover .card-cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.department-card:hover .card-cta b {
+  transform: translateX(4px);
+}
+
+.card-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 21px 0 0;
+}
+
+.card-number {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--muted);
+}
+
+.card-caption h3 {
+  margin: 8px 0 7px;
+  font-size: clamp(25px, 2.8vw, 38px);
+  letter-spacing: -1.5px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.card-caption p {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* THIN GOOGLE GLOWING CIRCLE FOR PRODUCTS */
+.card-arrow {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  padding: 1.8px;
+  background: linear-gradient(135deg, #4285F4, #9B72CB, #EA4335, #FBBC04, #34A853, #4285F4);
+  background-size: 300% 300%;
+  animation: googleCircleGlow 4s linear infinite;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(66, 133, 244, 0.2);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.35s;
+}
+
+.card-arrow-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: var(--paper);
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+@keyframes googleCircleGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.department-card:hover .card-arrow {
+  transform: rotate(45deg) scale(1.12);
+  box-shadow: 0 4px 18px rgba(66, 133, 244, 0.45);
+}
+
+.department-card:hover .card-arrow-inner {
+  background: #ffffff;
+  color: #0284c7;
+}
+
+.is-filtered .department-card {
+  grid-column: span 3;
+}
+
+.empty-state {
+  border: 1px dashed var(--line);
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-state h3 {
+  font-size: 30px;
+  margin-top: 0;
+  color: var(--ink);
+}
+
+.empty-state p {
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.empty-state button {
+  margin-top: 15px;
+}
+
+/* =========================================================================
+   2. HOW IT WORKS: ORIGINAL BACKGROUND WITH SKY BLUE STEP BOXES
+   ========================================================================= */
+
+.sticky-how-section {
+  background: var(--paper);
+  color: var(--ink);
+  padding: 100px 4.5% 120px;
+  position: relative;
+  z-index: 1;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.sticky-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 60px;
+  align-items: start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Pinned Laptop Device Display (Left) */
+.sticky-visual-wrapper {
+  position: sticky;
+  top: 130px;
+  height: calc(100vh - 200px);
+  max-height: 580px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.laptop-mockup-frame {
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  filter: drop-shadow(0 20px 40px rgba(2, 132, 199, 0.12));
+}
+
+.laptop-screen-bezel {
+  width: 100%;
+  height: 330px;
+  background: #ffffff;
+  border: 12px solid #0f172a;
+  border-radius: 16px 16px 0 0;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+}
+
+.laptop-camera {
+  position: absolute;
+  top: -9px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #475569;
+}
+
+.browser-window-header {
+  background: #e0f2fe;
+  border-bottom: 1px solid #bae6fd;
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.browser-dots {
+  display: flex;
+  gap: 5px;
+}
+
+.browser-dots span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.dot-red { background: #ef4444; }
+.dot-yellow { background: #eab308; }
+.dot-green { background: #22c55e; }
+
+.browser-address-bar {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 2px 10px;
+  font-size: 10px;
+  color: #0369a1;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+/* Sky Blue Mockup Screen Viewport */
+.laptop-dynamic-viewport {
+  flex: 1;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.laptop-icon-display {
+  font-size: 58px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 6px 14px rgba(2, 132, 199, 0.2));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.laptop-step-badge {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: #0369a1;
+  background: #bae6fd;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.laptop-dynamic-viewport h4 {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.laptop-dynamic-viewport p {
+  font-size: 12px;
+  color: #475569;
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0;
+}
+
+.laptop-chassis-base {
+  width: 114%;
+  height: 14px;
+  background: linear-gradient(180deg, #cbd5e1 0%, #94a3b8 100%);
+  border-radius: 0 0 16px 16px;
+  position: relative;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.laptop-notch-cutout {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 4px;
+  background: #64748b;
+  border-radius: 0 0 6px 6px;
+}
+
+/* SKY BLUE STEP BOXES (Right Side) */
+.sticky-steps-track {
+  display: flex;
+  flex-direction: column;
+  gap: 130px;
+  padding-bottom: 60px;
+}
+
+.step-card {
+  background: var(--sky-bg);
+  border: 1.5px solid var(--sky-border);
+  border-radius: 20px;
+  padding: 44px 40px;
+  box-shadow: 0 12px 30px rgba(2, 132, 199, 0.08);
+  transition: transform 0.35s ease, border-color 0.35s, box-shadow 0.35s;
+}
+
+.step-card.active-step {
+  border-color: var(--sky-primary);
+  transform: translateX(14px);
+  box-shadow: 0 20px 45px rgba(2, 132, 199, 0.2);
+  background: linear-gradient(135deg, #ffffff 0%, #e0f2fe 100%);
+}
+
+.step-number {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: var(--sky-primary);
+  margin-bottom: 12px;
+  display: block;
+}
+
+.step-card h3 {
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  margin: 0 0 14px;
+  color: #0f172a;
+}
+
+.step-card p {
+  font-size: 15px;
+  color: #334155;
+  line-height: 1.7;
+  margin: 0;
+}
+
+/* =========================================
+   Untitled UI Contact & Profile Section
+   ========================================= */
+
+.contact-section {
+  background: #ffffff;
+  border-top: 1px solid var(--line);
+  padding: 100px 4.5%;
+}
+
+.contact-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 70px;
+  align-items: center;
+}
+
+.contact-form-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-title {
+  font-size: clamp(38px, 4.2vw, 54px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  color: var(--ink);
+  margin: 0 0 10px;
+  line-height: 1.1;
+}
+
+.contact-title em {
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  color: var(--orange);
+}
+
+.contact-subtitle {
+  font-size: 15px;
+  color: var(--muted);
+  margin: 0 0 35px;
+  line-height: 1.5;
+}
+
+.clean-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #475569;
+}
+
+.field-group input,
+.field-group textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--ink);
+  background: #f8fafc;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+  font-family: inherit;
+}
+
+.field-group input:focus,
+.field-group textarea:focus {
+  border-color: var(--ink);
+  background: #ffffff;
+}
+
+.phone-input-wrap {
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.country-prefix {
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #475569;
+  border-right: 1px solid #e2e8f0;
+  background: #f1f5f9;
+}
+
+.phone-input-wrap input {
+  border: none;
+  background: transparent;
+  border-radius: 0;
+}
+
+/* Direct SVG Contact Channel Buttons */
+.direct-contact-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+  margin: 10px 0 16px;
+}
+
+.contact-tile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid #e2e8f0;
+  background: #ffffff;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.contact-tile:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(32, 34, 30, 0.08);
+}
+
+.tile-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.tile-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tile-text strong {
+  font-size: 13px;
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.tile-text span {
+  font-size: 11px;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
+}
+
+.whatsapp-tile .tile-icon-box {
+  background: #e7fce8;
+  color: #25d366;
+}
+.whatsapp-tile:hover { border-color: #25d366; }
+
+.gmail-tile .tile-icon-box { background: #fdf2f2; }
+.gmail-tile:hover { border-color: #ea4335; }
+
+.phone-tile .tile-icon-box {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+.phone-tile:hover { border-color: #0284c7; }
+
+.submit-contact-btn {
+  width: 100%;
+  padding: 14px;
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.submit-contact-btn:hover {
+  background: #3d4334;
+  transform: translateY(-2px);
+}
+
+/* Portrait Column */
+.contact-portrait-col {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.portrait-card {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  height: 640px;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 25px 60px rgba(32, 34, 30, 0.12);
+  background: #e2e8f0;
+}
+
+.portrait-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.6s ease;
+}
+
+.portrait-card:hover .portrait-img {
+  transform: scale(1.04);
+}
+
+.portrait-overlay-card {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.portrait-quote {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #334155;
+  margin: 0 0 16px;
+}
+
+.author-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.author-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4285f4, #9b72cb, #ec623c);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.author-meta { flex: 1; }
+.author-meta h4 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 2px;
+  color: var(--ink);
+}
+.author-meta span {
+  font-size: 11px;
+  color: var(--muted);
+}
+.rating-stars {
+  color: #f59e0b;
+  font-size: 13px;
+  letter-spacing: 2px;
+}
+
+/* =========================
+   Closing & Footer
+   ========================= */
+
+.closing {
+  position: relative;
+  overflow: hidden;
+  background: var(--orange);
+  color: #211e19;
+  padding: 75px 8%;
+  isolation: isolate;
+}
+
+.closing h2 {
+  font-size: clamp(70px, 11vw, 170px);
+  max-width: 1080px;
+}
+
+.closing h2 > span {
+  display: inline-block;
+  margin-left: 0.4em;
+  transition: transform 0.5s;
+}
+
+.closing:hover h2 > span {
+  transform: translate(12px, -12px);
+}
+
+.closing-bottom {
+  max-width: 1120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  margin-top: 45px;
+}
+
+.closing-bottom p {
+  font-size: 14px;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.pill-button.light {
+  background: var(--paper);
+  color: var(--ink);
+  min-width: 200px;
+}
+
+.pill-button.light > span {
+  color: white;
+  background: var(--ink);
+}
+
+/* Remove Orange section background circle */
+.closing-circle {
+  display: none !important;
+}
+
+footer {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  padding: 32px 4.5%;
+}
+
+footer .brand {
+  font-size: 23px;
+}
+
+footer p {
+  font-size: 12px;
+  color: var(--muted);
+  margin-right: auto;
+}
+
+footer > a:not(.brand) {
+  font-size: 12px;
+}
+
+footer > span {
+  font-size: 9px;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+
+/* Animations & Responsive */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--rotation)); }
+  50% { transform: translateY(-13px) rotate(calc(var(--rotation) + 2deg)); }
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+.motion-paused *,
+.motion-paused *::before,
+.motion-paused *::after {
+  animation-play-state: paused !important;
+}
+
+.motion-paused .department-card {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+@media (max-width: 1024px) {
+  .odometer-grid { grid-template-columns: repeat(2, 1fr); }
+  .sticky-container { grid-template-columns: 1fr; }
+  .sticky-visual-wrapper { display: none; }
+  .contact-container { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 860px) {
+  .site-header { flex-wrap: wrap; gap: 12px; }
+  .ai-search-wrapper { order: 3; max-width: 100%; width: 100%; }
+  .hero-grid { grid-template-columns: 1fr; }
+  .department-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .department-card, .department-card.wide { grid-column: span 1; }
+  .direct-contact-tiles { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .header-actions-group { gap: 7px; }
+  .header-actions-group a { font-size: 10px; padding: 9px 12px; }
+}
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#departments">
+    Skip to departments
+  </a>
+
+  <!-- Header with AI Search, Contact Button, and Login/Signup -->
+  <header class="site-header">
+    <a class="brand" href="landing.html" aria-label="EdgeMart AI home">
+      <img src="logo.svg" width="40" height="40" alt="">
+      <span>EdgeMart<small>AI</small></span>
+    </a>
+
+    <!-- Clean AI Search Bar -->
+    <div class="ai-search-wrapper">
+      <form class="search-form" role="search" action="#departments">
+        <label class="sr-only" for="department-search">Search departments or products</label>
+        <input type="search" id="department-search" placeholder="Ask or find your department..." autocomplete="off">
+        <button type="submit" aria-label="Search departments">↵</button>
+      </form>
+    </div>
+
+    <!-- Header Actions: Contact Us + Login / Sign Up Button -->
+    <div class="header-actions-group">
+      <a class="header-contact-btn" href="./?seller=signup&department=electronics">Sell with us</a>
+      <a class="header-contact-btn" href="/delivery">Deliver with us</a>
+      <a class="header-contact-btn" href="#contact">
+        Contact us <span aria-hidden="true">↘</span>
+      </a>
+      <div id="landing-account"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Parallax Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="hero-meta">
+        <span>
+          <i class="status-dot" aria-hidden="true"></i>
+          WELCOME TO YOUR EDGEMART
+        </span>
+
+        <button class="motion-toggle" type="button" aria-pressed="false">
+          Pause motion <span aria-hidden="true">Ⅱ</span>
+        </button>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-copy" data-parallax-speed="0.08">
+          <p class="eyebrow">THE EVERYDAY. REIMAGINED.</p>
+
+          <h1 id="hero-title">
+            <span>Life, with</span>
+            <span>
+              an <em>edge.</em>
+              <svg class="title-arrow" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+                <path d="M15 15 85 85M20 85h65V20" stroke="currentColor" stroke-width="9"></path>
+              </svg>
+            </span>
+          </h1>
+
+          <p class="hero-description">
+            From your first coffee to your next obsession.<br>
+            Ten worlds to explore. One place that gets you.
+          </p>
+
+          <div class="hero-actions">
+            <a class="pill-button" href="#departments">
+              Find your next favourite <span aria-hidden="true">↗</span>
+            </a>
+
+            <a class="quiet-link" href="./?department=electronics">
+              Start shopping <span aria-hidden="true">→</span>
+            </a>
+          </div>
+
+          <div class="hero-footnote">
+            <span class="mini-stack" aria-hidden="true">
+              <img src="images/hero-fruits.jpg" alt="">
+              <img src="images/hero-plants.jpg" alt="">
+              <img src="images/hero-books.jpg" alt="">
+            </span>
+
+            <p>
+              Big discoveries.<br>
+              <strong>Little everyday joys.</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="hero-art" aria-label="Explore technology, fresh fruit, and plants">
+          <div class="hero-deal-badge" data-parallax-speed="-0.16">
+            <span>⚡</span> DEAL OF THE DAY • UP TO 40% OFF
+          </div>
+
+          <a class="photo-card photo-tech" data-parallax-speed="-0.12" href="./?department=electronics" aria-label="Explore Electronics">
+            <img src="images/hero-electronics.jpg" alt="Technology and electronics" fetchpriority="high">
+            <span>TURN IT UP <b aria-hidden="true">↗</b></span>
+          </a>
+
+          <a class="photo-card photo-fruit" data-parallax-speed="-0.06" href="./?department=fruits" aria-label="Explore Fruits">
+            <img src="images/hero-fruits.jpg" alt="Fresh seasonal fruit">
+            <span>A FRESH PERSPECTIVE <b aria-hidden="true">↗</b></span>
+          </a>
+
+          <a class="photo-card photo-plant" data-parallax-speed="-0.18" href="./?department=plants" aria-label="Explore Plants">
+            <img src="images/hero-plants.jpg" alt="Green plants">
+            <span>ROOM TO GROW <b aria-hidden="true">↗</b></span>
+          </a>
+
+          <div class="round-stamp" data-parallax-speed="0.10" aria-hidden="true">
+            <span>GOOD FINDS<br>GREAT DAYS</span>
+            <b>em.</b>
+          </div>
+
+          <span class="art-note">
+            A little unexpected.<br>A lot to love.
+          </span>
+        </div>
+      </div>
+
+      <div class="hero-bottom">
+        <span>EVERYTHING YOU LOVE, A LITTLE CLOSER.</span>
+        <a href="#departments">
+          SCROLL TO DISCOVER <span aria-hidden="true">↓</span>
+        </a>
+        <span>10 WORLDS / ONE EDGEMART</span>
+      </div>
+    </section>
+
+    <!-- Odometer Metrics -->
+    <section class="odometer-metrics-section" aria-label="EdgeMart AI credibility statistics">
+      <div class="odometer-grid">
+        <div class="odometer-card">
+          <div class="odometer-number-wrap">
+            <span class="odometer-number" data-target="10000">0</span>
+            <span class="odometer-suffix">+</span>
+          </div>
+          <span class="odometer-label">Deliveries Fulfilled</span>
+        </div>
+
+        <div class="odometer-card">
+          <div class="odometer-number-wrap">
+            <span class="odometer-number" data-target="5000">0</span>
+            <span class="odometer-suffix">+</span>
+          </div>
+          <span class="odometer-label">Household Essentials</span>
+        </div>
+
+        <div class="odometer-card">
+          <div class="odometer-number-wrap">
+            <span class="odometer-number" data-target="99">0</span>
+            <span class="odometer-suffix">%</span>
+          </div>
+          <span class="odometer-label">Customer Satisfaction</span>
+        </div>
+
+        <div class="odometer-card">
+          <div class="odometer-number-wrap">
+            <span class="odometer-number" data-target="10">0</span>
+            <span class="odometer-suffix">Worlds</span>
+          </div>
+          <span class="odometer-label">Curated Departments</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Marquee Banner -->
+    <div class="ticker" aria-label="Fresh finds. Everyday icons. Unexpected favourites.">
+      <div class="ticker-track" aria-hidden="true">
+        <span>
+          FRESH FINDS <i>↗</i> EVERYDAY ICONS <i>↗</i> UNEXPECTED FAVOURITES <i>↗</i>&nbsp;
+        </span>
+        <span>
+          FRESH FINDS <i>↗</i> EVERYDAY ICONS <i>↗</i> UNEXPECTED FAVOURITES <i>↗</i>&nbsp;
+        </span>
+      </div>
+    </div>
+
+    <!-- 10 Department Products Section -->
+    <section class="departments" id="departments" aria-labelledby="department-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">FOLLOW YOUR CURIOSITY</p>
+          <h2 id="department-title">
+            What’s your<br>
+            <em>kind of day?</em>
+          </h2>
+        </div>
+
+        <div class="section-intro">
+          <p>
+            Something fresh. Something brilliant.<br>
+            Something completely you.
+          </p>
+          <span id="search-status" role="status" aria-live="polite">
+            10 departments to explore
+          </span>
+        </div>
+      </div>
+
+      <div class="department-grid">
+        <!-- 01: Electronics -->
+        <a class="department-card wide reveal-item" href="./?department=electronics" data-search="electronics technology gadgets headphones camera laptop speaker" style="--card-color: #c3cdf7">
+          <div class="card-image">
+            <img src="images/hero-electronics.jpg" alt="Electronics collection">
+            <span class="card-tag">FOR YOUR NEXT BIG IDEA</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">01 / CONNECT</span>
+              <h3>Electronics</h3>
+              <p>Big sound. Bright ideas. Better days.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 02: Fruits -->
+        <a class="department-card reveal-item" href="./?department=fruits" data-search="fruits fruit orange mango apple strawberry citrus" style="--card-color: #f5b773">
+          <div class="card-image">
+            <img src="images/hero-fruits.jpg" alt="Fresh fruit collection">
+            <span class="card-tag">A LITTLE DAILY SUNSHINE</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">02 / REFRESH</span>
+              <h3>Fruits</h3>
+              <p>Good mornings start here.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 03: Vegetables -->
+        <a class="department-card reveal-item" href="./?department=vegetables" data-search="vegetables greens carrot broccoli tomato fresh" style="--card-color: #d3dea0">
+          <div class="card-image">
+            <img src="images/hero-vegetables.jpg" alt="Fresh vegetables">
+            <span class="card-tag">STRAIGHT TO YOUR TABLE</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">03 / NOURISH</span>
+              <h3>Vegetables</h3>
+              <p>Make room for the good stuff.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 04: Jewellery -->
+        <a class="department-card wide reveal-item" href="./?department=jewellery" data-search="jewellery jewelry gold ring necklace earrings watch" style="--card-color: #dfc8a0">
+          <div class="card-image">
+            <img src="images/hero-jewellery.jpg" alt="Jewellery collection">
+            <span class="card-tag">MAKE EVERY DAY AN OCCASION</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">04 / SHINE</span>
+              <h3>Jewellery</h3>
+              <p>Small details. Lasting impressions.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 05: Meat -->
+        <a class="department-card reveal-item" href="./?department=meat" data-search="meat chicken salmon fish steak sausages protein" style="--card-color: #e8b9b0">
+          <div class="card-image">
+            <img src="images/hero-meat.jpg" alt="Meat collection">
+            <span class="card-tag">SOMETHING WORTH COOKING</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">05 / SAVOUR</span>
+              <h3>Meat</h3>
+              <p>The beginning of a great meal.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 06: Pharmacy -->
+        <a class="department-card reveal-item" href="./?department=pharmacy" data-search="pharmacy health wellness vitamin tea care first aid" style="--card-color: #b8dad5">
+          <div class="card-image">
+            <img src="images/hero-pharmacy.jpg" alt="Wellness essentials">
+            <span class="card-tag">A LITTLE CARE GOES A LONG WAY</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">06 / CARE</span>
+              <h3>Pharmacy</h3>
+              <p>Everyday essentials for your routine.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 07: Groceries -->
+        <a class="department-card reveal-item" href="./?department=groceries" data-search="groceries grocery pantry coffee bread honey olive oil" style="--card-color: #dcc9b6">
+          <div class="card-image">
+            <img src="images/hero-groceries.jpg" alt="Groceries and pantry collection">
+            <span class="card-tag">STOCK UP ON THE GOOD THINGS</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">07 / REPLENISH</span>
+              <h3>Groceries</h3>
+              <p>Your pantry, with a little personality.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 08: Books -->
+        <a class="department-card reveal-item" href="./?department=books" data-search="books book reading lifestyle photography art paperback" style="--card-color: #d0c0e6">
+          <div class="card-image">
+            <img src="images/hero-books.jpg" alt="Books and reading collection">
+            <span class="card-tag">GET LOST. FIND SOMETHING.</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">08 / IMAGINE</span>
+              <h3>Books</h3>
+              <p>A different world on every page.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 09: Food order -->
+        <a class="department-card reveal-item" href="./?department=food" data-search="food order meal restaurant pasta pizza noodles bowl salad" style="--card-color: #f3aa87">
+          <div class="card-image">
+            <img src="images/hero-food.jpg" alt="Prepared food collection">
+            <span class="card-tag">FOLLOW THAT CRAVING</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">09 / INDULGE</span>
+              <h3>Food order</h3>
+              <p>Great taste. Your kind of comfort.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 10: Plants -->
+        <a class="department-card reveal-item" href="./?department=plants" data-search="plants plant garden green monstera olive tree herbs fig" style="--card-color: #bacdad">
+          <div class="card-image">
+            <img src="images/hero-plants.jpg" alt="Indoor plants collection">
+            <span class="card-tag">LET YOUR SPACE COME ALIVE</span>
+            <span class="card-cta">Explore <b aria-hidden="true">↗</b></span>
+          </div>
+          <div class="card-caption">
+            <div>
+              <span class="card-number">10 / GROW</span>
+              <h3>Plants</h3>
+              <p>A greener corner. A happier home.</p>
+            </div>
+            <div class="card-arrow" aria-hidden="true">
+              <span class="card-arrow-inner">↗</span>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <div class="empty-state" hidden>
+        <h3>No department found.</h3>
+        <p>Try “books”, “fresh”, “headphones”, or “plants”.</p>
+        <button class="pill-button" id="clear-search" type="button">
+          Show every department <span aria-hidden="true">↗</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="sticky-how-section" id="how-it-works" aria-labelledby="how-title">
+      <div class="sticky-container">
+        <!-- Pinned Laptop Device Display (Left) -->
+        <div class="sticky-visual-wrapper">
+          <div class="laptop-mockup-frame">
+            <div class="laptop-screen-bezel">
+              <div class="laptop-camera"></div>
+              <div class="browser-window-header">
+                <div class="browser-dots">
+                  <span class="dot-red"></span>
+                  <span class="dot-yellow"></span>
+                  <span class="dot-green"></span>
+                </div>
+                <div class="browser-address-bar">https://edgemart.ai/shop</div>
+              </div>
+              <div class="laptop-dynamic-viewport">
+                <div class="laptop-icon-display" id="laptop-icon">🔍</div>
+                <span class="laptop-step-badge" id="laptop-tag">STEP 01</span>
+                <h4 id="laptop-title">Browse Departments</h4>
+                <p id="laptop-desc">Explore 10 curated worlds on our responsive web portal with real-time AI filters.</p>
+              </div>
+            </div>
+            <div class="laptop-chassis-base">
+              <div class="laptop-notch-cutout"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrolling Sequential Steps 1, 2, 3 (Right) -->
+        <div class="sticky-steps-track">
+          <div class="step-card active-step" data-step="1" data-icon="🔍" data-title="Browse Departments" data-desc="Explore 10 curated worlds on our responsive web portal with real-time AI filters.">
+            <span class="step-number">STEP 01</span>
+            <h3>1. Explore Curated Worlds</h3>
+            <p>From organic produce to premium tech essentials, browse cleanly structured online catalogs built for seamless desktop and browser performance.</p>
+          </div>
+
+          <div class="step-card" data-step="2" data-icon="🛒" data-title="Select & Review" data-desc="Select items instantly and review live specs, inventory ratings, and pricing.">
+            <span class="step-number">STEP 02</span>
+            <h3>2. Inspect & Add to Cart</h3>
+            <p>Review real-time transparent pricing, adjust item counts with rapid steppers, and verify detailed product descriptions before purchasing.</p>
+          </div>
+
+          <div class="step-card" data-step="3" data-icon="⚡" data-title="Direct Web Checkout" data-desc="Complete quick checkout and trigger automated order dispatch.">
+            <span class="step-number">STEP 03</span>
+            <h3>3. Express Direct Delivery</h3>
+            <p>Place orders securely via digital channels and receive priority tracking right to your home address.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Untitled UI Inspired Contact & Profile Section -->
+    <section class="contact-section" id="contact" aria-labelledby="contact-heading">
+      <div class="contact-container">
+        <!-- Left Column: Form & Direct Contact -->
+        <div class="contact-form-col">
+          <h2 id="contact-heading" class="contact-title">How can I <em>help?</em></h2>
+          <p class="contact-subtitle">Have questions, feedback, or a project in mind? Reach out directly.</p>
+
+          <form class="clean-form" id="contact-form">
+            <div class="field-group">
+              <label for="contact-name">Your Name</label>
+              <input type="text" id="contact-name" name="name" autocomplete="name" minlength="2" maxlength="100" placeholder="Enter your full name" required>
+            </div>
+
+            <div class="field-group">
+              <label for="contact-email">Email Address</label>
+              <input type="email" id="contact-email" name="email" autocomplete="email" maxlength="254" placeholder="abc@example.com" required>
+            </div>
+
+            <div class="field-group">
+              <label for="contact-phone">Phone / WhatsApp</label>
+              <div class="phone-input-wrap">
+                <span class="country-prefix">🇮🇳 +91</span>
+                <input type="tel" id="contact-phone" name="phone" autocomplete="tel-national" maxlength="30" placeholder="please enter the mobile number">
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label for="contact-message">Message</label>
+              <textarea id="contact-message" name="message" rows="3" minlength="5" maxlength="3000" placeholder="Tell us how we can help..." required></textarea>
+            </div>
+
+            <!-- Official SVG Contact Channels (WhatsApp, Gmail, Phone) -->
+            <div class="direct-contact-tiles">
+              <!-- WhatsApp -->
+              <a href="https://wa.me/917659091069" target="_blank" rel="noopener noreferrer" class="contact-tile whatsapp-tile" aria-label="Chat on WhatsApp">
+                <div class="tile-icon-box">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                    <path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 3.67C14.25 3.67 16.31 4.53 17.87 6.09C19.42 7.65 20.28 9.72 20.28 11.92C20.28 16.46 16.58 20.15 12.04 20.15C10.56 20.15 9.11 19.76 7.85 19.01L7.55 18.83L4.43 19.65L5.26 16.61L5.06 16.29C4.24 15 3.8 13.47 3.8 11.91C3.81 7.37 7.5 3.67 12.05 3.67M9.04 7.55C8.84 7.55 8.5 7.62 8.22 7.92C7.94 8.22 7.15 8.96 7.15 10.45C7.15 11.94 8.23 13.38 8.38 13.58C8.53 13.78 10.46 16.76 13.42 18.04C14.13 18.34 14.68 18.52 15.11 18.66C15.82 18.89 16.47 18.85 16.98 18.78C17.55 18.69 18.73 18.06 18.98 17.36C19.23 16.65 19.23 16.05 19.16 15.93C19.08 15.8 18.88 15.73 18.59 15.58C18.29 15.43 16.83 14.71 16.56 14.61C16.29 14.51 16.09 14.46 15.89 14.76C15.69 15.06 15.12 15.73 14.95 15.93C14.78 16.13 14.6 16.15 14.3 16C14.01 15.85 13.06 15.54 11.93 14.53C11.05 13.75 10.46 12.78 10.29 12.48C10.11 12.19 10.27 12.03 10.42 11.88C10.55 11.75 10.71 11.53 10.86 11.36C11.01 11.19 11.06 11.06 11.16 10.86C11.26 10.67 11.21 10.49 11.14 10.35C11.06 10.2 10.49 8.79 10.24 8.23C10.02 7.68 9.77 7.76 9.59 7.75C9.42 7.75 9.24 7.55 9.04 7.55Z"/>
+                  </svg>
+                </div>
+                <div class="tile-text">
+                  <strong>WhatsApp</strong>
+                  <span>+91 7659091069</span>
+                </div>
+              </a>
+
+              <!-- Gmail -->
+              <a href="mailto:vigneshpoloji@gmail.com" class="contact-tile gmail-tile" aria-label="Send an Email">
+                <div class="tile-icon-box">
+                  <svg viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="#4285F4" d="M2.5 19h4V9.8L2.5 6.6V19z"/>
+                    <path fill="#34A853" d="M17.5 19h4V6.6l-4 3.2V19z"/>
+                    <path fill="#EA4335" d="M17.5 6.6V5c0-1.1-.9-2-2-2h-7c-1.1 0-2 .9-2 2v1.6l6.5 5.2 4.5-3.6v-1.6z"/>
+                    <path fill="#FBBC04" d="M6.5 5v1.6l5.5 4.4 5.5-4.4V5c0-1.1-.9-2-2-2h-7c-1.1 0-2 .9-2 2z"/>
+                    <path fill="#C5221F" d="M6.5 6.6L12 11l5.5-4.4H6.5z"/>
+                  </svg>
+                </div>
+                <div class="tile-text">
+                  <strong>Gmail</strong>
+                  <span>vigneshpoloji@gmail.com</span>
+                </div>
+              </a>
+
+              <!-- Phone Call -->
+              <a href="tel:+917659091069" class="contact-tile phone-tile" aria-label="Direct Phone Call">
+                <div class="tile-icon-box">
+                  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </div>
+                <div class="tile-text">
+                  <strong>Phone</strong>
+                  <span>+91 7659091069</span>
+                </div>
+              </a>
+            </div>
+
+            <div hidden aria-hidden="true"><label for="contact-website">Website</label><input id="contact-website" name="website" tabindex="-1" autocomplete="off"></div>
+            <p class="contact-privacy">Your details and message will be emailed to Poloji Vignesh through our email service.</p>
+            <button type="submit" class="submit-contact-btn">Get in touch!</button>
+            <p id="contact-status" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <!-- Right Column: Portrait Card -->
+        <div class="contact-portrait-col">
+          <div class="portrait-card">
+            <img src="/images/profile.jpg" alt="Poloji Vignesh" class="portrait-img" onerror="this.src='/images/hero-electronics.jpg';">
+            <div class="portrait-overlay-card">
+              <p class="portrait-quote">
+                “Building high-performance e-commerce experiences and intuitive user interfaces. Crafted with modern reactive architectures and design precision.”
+              </p>
+              <div class="author-row">
+                <div class="author-avatar">PV</div>
+                <div class="author-meta">
+                  <h4>Poloji Vignesh</h4>
+                  <span>Web Developer</span>
+                </div>
+                <div class="rating-stars" aria-hidden="true"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Closing Section -->
+    <section class="closing" aria-labelledby="closing-title">
+      <p class="eyebrow">A LITTLE MORE YOU. EVERY DAY.</p>
+      <h2 id="closing-title">
+        Good things<br>
+        start <em>here.</em><span aria-hidden="true">↗</span>
+      </h2>
+      <div class="closing-bottom">
+        <p>
+          Pick a world. Find your favourite.<br>
+          Make the everyday extraordinary.
+        </p>
+        <a class="pill-button light" href="#departments">
+          Let’s explore <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand" href="landing.html">
+      <img src="logo.svg" width="34" height="34" alt="">
+      <span>EdgeMart<small>AI</small></span>
+    </a>
+    <p>Your everyday. With an edge.</p>
+    <a href="#contact">
+      Let’s talk <span aria-hidden="true">↗</span>
+    </a>
+    <a href="/images/india/photo-credits.html" target="_blank" rel="noreferrer">Photo credits</a>
+    <span>© 2026 EDGEMART AI</span>
+  </footer>
+
+  <style>
+    .contact-privacy { font-size: 13px; line-height: 1.5; color: #625f68; }
+    #contact-status { min-height: 1.5em; margin-top: 14px; font-size: 14px; line-height: 1.5; }
+    #contact-status[data-state="error"] { color: #a42828; }
+    #contact-status[data-state="success"] { color: #245b3b; }
+    .submit-contact-btn:disabled { opacity: .65; cursor: wait; }
+  </style>
+  <!-- Scripts -->
+  <script src="/landing.js" defer></script>
+<script type="module" src="/src/authentication/LandingAccount.jsx"></script>
+<script type="module" src="/src/contact/contact.js"></script>
+</body>
+</html>
